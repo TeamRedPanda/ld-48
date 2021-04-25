@@ -24,6 +24,8 @@ public class ItemHolder : NetworkBehaviour
         go.GetComponent<Rigidbody2D>().simulated = true;
         go.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity;
 
+        go.AddComponent<PickableItem>().ItemId = ItemIndex;
+
         NetworkServer.Spawn(go);
 
         ItemIndex = -1;
