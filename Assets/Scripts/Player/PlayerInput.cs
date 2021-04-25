@@ -174,6 +174,13 @@ public class PlayerInput : NetworkBehaviour
         m_InputControls.Player.Interact.performed += HandleInteract;
         m_InputControls.Player.Interact.canceled += HandleInteract;
 
+        m_InputControls.Player.DropItem.performed += HandleDrop;
+
         m_InputControls.Player.Enable();
+    }
+
+    private void HandleDrop(InputAction.CallbackContext context)
+    {
+        GetComponent<ItemHolder>()?.DropItem();
     }
 }
