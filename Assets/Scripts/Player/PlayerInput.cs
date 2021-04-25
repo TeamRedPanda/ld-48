@@ -42,8 +42,22 @@ public class PlayerInput : NetworkBehaviour
             return;
 
         var velocity = m_Rigidbody.velocity;
-        velocity.x = m_InputControls.Player.Movement.ReadValue<float>() * m_Speed;
 
+        var movementInput = m_InputControls.Player.Movement.ReadValue<Vector2>();
+
+        ComputeHorizontalVelocity(ref velocity, movementInput.x);
+        ComputeVerticalVelocity(ref velocity, movementInput.y);
+
+        m_Rigidbody.velocity = velocity;
+    }
+
+    private void ComputeHorizontalVelocity(ref Vector2 velocity, float horizontalInput)
+    {
+        velocity.x = horizontalInput * m_Speed;
+    }
+
+    private void ComputeVerticalVelocity(ref Vector2 velocity, float verticalInput)
+    {
         if (velocity.y < 0) {
             velocity.y += Physics2D.gravity.y * (m_FallMultiplier - 1) * Time.deltaTime;
         } else if (!m_IsJumping) {
@@ -54,8 +68,6 @@ public class PlayerInput : NetworkBehaviour
             velocity.y = m_JumpVelocity;
             m_ShouldJump = false;
         }
-
-        m_Rigidbody.velocity = velocity;
     }
 
     void HandleJumpAction(InputAction.CallbackContext context)

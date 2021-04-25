@@ -22,7 +22,7 @@ public class @InputControls : IInputActionCollection, IDisposable
                     ""name"": ""Movement"",
                     ""type"": ""Value"",
                     ""id"": ""ff7d52cb-5dbc-4749-af05-f21e7c842e84"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -47,7 +47,7 @@ public class @InputControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e4700c40-5a37-41de-9ed8-c09208e3fa32"",
-                    ""path"": ""<Gamepad>/leftStick/x"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -58,7 +58,7 @@ public class @InputControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Keyboard"",
                     ""id"": ""da871d7a-7ce8-453d-bf37-ea19f9a6463a"",
-                    ""path"": ""1DAxis"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -67,8 +67,30 @@ public class @InputControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
+                    ""name"": ""Up"",
                     ""id"": ""62a5eea6-bc5e-477d-b63a-8a697e829a0b"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Down"",
+                    ""id"": ""133a65e2-183d-4cda-93d4-5d184866aa9e"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Left"",
+                    ""id"": ""63103109-85ba-44e2-a487-ab71d95b1c05"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -78,8 +100,8 @@ public class @InputControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""133a65e2-183d-4cda-93d4-5d184866aa9e"",
+                    ""name"": ""Right"",
+                    ""id"": ""df0c846f-4b2e-483c-81a9-2cc9eb887762"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -91,7 +113,7 @@ public class @InputControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""08074efb-2628-494f-915f-58bc2768fb02"",
-                    ""path"": ""<Gamepad>/dpad/x"",
+                    ""path"": ""<Gamepad>/dpad"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
