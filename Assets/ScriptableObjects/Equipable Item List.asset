@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Equipable Item List
   m_EditorClassIdentifier: 
   Prefabs:
-  - {fileID: 2131643447428603417, guid: 6c1d4a8e268ac4c4ca5350f799082674, type: 3}
-  - {fileID: 2131643447428603417, guid: 79b37e0e9b526ea4e99f6614a09e1979, type: 3}
+  - {fileID: 6031498175112907441, guid: 93c1436a9a2a9b446b7ab3fb79db1690, type: 3}
+  - {fileID: 304738155168788123, guid: 0c4004dca9566a749b518c4396c23487, type: 3}

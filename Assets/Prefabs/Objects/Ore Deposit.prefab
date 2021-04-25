@@ -174,4 +174,4 @@ MonoBehaviour:
   syncInterval: 0.1
   m_InteractionType: 1
   m_ItemList: {fileID: 11400000, guid: 7e1566635803adb43a5bb72e2624b55e, type: 2}
-  m_Item: {fileID: 2131643447428603417, guid: 6c1d4a8e268ac4c4ca5350f799082674, type: 3}
+  m_Item: {fileID: 304738155168788123, guid: 0c4004dca9566a749b518c4396c23487, type: 3}
