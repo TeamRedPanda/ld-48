@@ -40,6 +40,8 @@ public class PlayerInput : NetworkBehaviour
         if (hitCount > 0) {
             m_IsGrounded = true;
             m_Climbing = false;
+        } else {
+            m_IsGrounded = false;
         }
     }
 
