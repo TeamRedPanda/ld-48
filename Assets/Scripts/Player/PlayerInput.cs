@@ -2,6 +2,7 @@
 using Mirror;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using System.Runtime.InteropServices;
 
 /*
 	Documentation: https://mirror-networking.com/docs/Guides/NetworkBehaviour.html
@@ -32,6 +33,10 @@ public class PlayerInput : NetworkBehaviour
     [SerializeField] float m_ClimbSpeed = 5f;
     [SerializeField] bool m_Climbing = false;
 
+    private bool m_CanMove = true;
+
+    private IInteractable m_Interacting = null;
+
     void Update()
     {
         Vector2 position = (Vector2)transform.position;
@@ -48,6 +53,9 @@ public class PlayerInput : NetworkBehaviour
     void FixedUpdate()
     {
         if (!isLocalPlayer || m_InputControls == null)
+            return;
+
+        if (!m_CanMove)
             return;
 
         var velocity = m_Rigidbody.velocity;
@@ -124,6 +132,35 @@ public class PlayerInput : NetworkBehaviour
         }
     }
 
+    void HandleInteract(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed) {
+            var interactableLayer = 1 << LayerMask.NameToLayer("Interactables");
+            var hit = Physics2D.Raycast(transform.position, Vector2.up, 1f, interactableLayer);
+
+            if (hit.collider == null)
+                return;
+
+            m_Interacting = hit.collider.GetComponent<IInteractable>();
+
+            if (m_Interacting == null)
+                return;
+
+            var type = m_Interacting.BeginInteraction(gameObject);
+
+            if (type == InteractionType.StopMovement) {
+                m_CanMove = false;
+            }
+
+            return;
+        }
+
+        if (context.phase == InputActionPhase.Canceled) {
+            m_Interacting = null;
+            m_CanMove = true;
+        }
+    }
+
     /// <summary>
     /// Called when the local player object has been set up.
     /// <para>This happens after OnStartClient(), as it is triggered by an ownership message from the server. This is an appropriate place to activate components or functionality that should only be active for the local player, such as cameras and input.</para>
@@ -133,6 +170,10 @@ public class PlayerInput : NetworkBehaviour
         m_InputControls = new InputControls();
         m_InputControls.Player.Jump.performed += HandleJumpAction;
         m_InputControls.Player.Jump.canceled += HandleJumpAction;
+
+        m_InputControls.Player.Interact.performed += HandleInteract;
+        m_InputControls.Player.Interact.canceled += HandleInteract;
+
         m_InputControls.Player.Enable();
     }
 }
