@@ -28,12 +28,19 @@ public class PlayerInput : NetworkBehaviour
     private RaycastHit2D[] m_GroundRaycastHit = new RaycastHit2D[64];
     private bool m_IsGrounded = false;
 
+    [SerializeField] LayerMask m_StairsMask = default;
+    [SerializeField] float m_ClimbSpeed = 5f;
+    [SerializeField] bool m_Climbing = false;
+
     void Update()
     {
         Vector2 position = (Vector2)transform.position;
         int hitCount = Physics2D.LinecastNonAlloc(position, position - Vector2.up * 0.1f, m_GroundRaycastHit, m_GroundMask);
 
-        m_IsGrounded = hitCount > 0;
+        if (hitCount > 0) {
+            m_IsGrounded = true;
+            m_Climbing = false;
+        }
     }
 
     void FixedUpdate()
@@ -53,20 +60,53 @@ public class PlayerInput : NetworkBehaviour
 
     private void ComputeHorizontalVelocity(ref Vector2 velocity, float horizontalInput)
     {
+        if (m_Climbing)
+            return;
+
         velocity.x = horizontalInput * m_Speed;
     }
 
     private void ComputeVerticalVelocity(ref Vector2 velocity, float verticalInput)
     {
-        if (velocity.y < 0) {
+        // Climbing
+        if (Mathf.Abs(verticalInput) > 0) {
+            var hit = Physics2D.Raycast(transform.position, Vector2.up, 1f, m_StairsMask);
+
+            if (hit.collider != null) {
+                if (!m_Climbing) {
+                    var position = transform.position;
+                    position.x = hit.transform.position.x;
+                    transform.position = position;
+
+                    velocity.x = 0;
+                }
+
+                m_Climbing = true;
+            } else {
+                m_Climbing = false;
+            }
+        }
+
+        // Gravity
+        if (velocity.y < 0 && !m_Climbing) {
             velocity.y += Physics2D.gravity.y * (m_FallMultiplier - 1) * Time.deltaTime;
-        } else if (!m_IsJumping) {
+        } else if (!m_IsJumping && !m_Climbing) {
             velocity.y += Physics2D.gravity.y * (m_LowJumpMultiplier - 1) * Time.deltaTime;
         }
 
-        if (m_ShouldJump && m_IsGrounded) {
+        if (m_Climbing) {
+            m_Rigidbody.gravityScale = 0f;
+
+            velocity.y = verticalInput * m_ClimbSpeed;
+        } else {
+            m_Rigidbody.gravityScale = 1f;
+        }
+
+        // Jump
+        if (m_ShouldJump && (m_IsGrounded || m_Climbing)) {
             velocity.y = m_JumpVelocity;
             m_ShouldJump = false;
+            m_Climbing = false;
         }
     }
 
