@@ -12,6 +12,8 @@ public class ItemHolder : NetworkBehaviour
     [SyncVar(hook = nameof(OnItemChanged))]
     public int ItemIndex = -1;
 
+    public const int Empty = -1;
+
     [Command]
     public void DropItem()
     {
@@ -21,10 +23,10 @@ public class ItemHolder : NetworkBehaviour
         Vector3 position = m_ItemPivot.transform.position;
         Quaternion rotation = m_ItemPivot.transform.rotation;
         var go = Instantiate(m_ItemList.Prefabs[ItemIndex], position, rotation);
-        go.GetComponent<Rigidbody2D>().simulated = true;
+        go.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         go.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity;
 
-        go.AddComponent<PickableItem>().ItemId = ItemIndex;
+        go.GetComponent<PickableItem>().ItemId = ItemIndex;
 
         NetworkServer.Spawn(go);
 
