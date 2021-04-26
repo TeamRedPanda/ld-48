@@ -150,12 +150,14 @@ public class PlayerInput : NetworkBehaviour
 
             if (type == InteractionType.StopMovement) {
                 m_CanMove = false;
+                m_Rigidbody.velocity = new Vector2(0f, m_Rigidbody.velocity.y);
             }
 
             return;
         }
 
         if (context.phase == InputActionPhase.Canceled) {
+            m_Interacting?.EndInteraction();
             m_Interacting = null;
             m_CanMove = true;
         }
