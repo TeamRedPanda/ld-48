@@ -23,6 +23,9 @@ public class ItemSource : NetworkBehaviour, IInteractable
     {
         var holder = player.GetComponent<ItemHolder>();
 
+        if (holder.ItemIndex != ItemHolder.Empty)
+            return;
+
         holder.ItemIndex = m_ItemList.FindIndex(m_Item);
     }
 
