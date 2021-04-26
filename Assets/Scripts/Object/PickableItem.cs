@@ -10,7 +10,6 @@ public class PickableItem : NetworkBehaviour, IInteractable
 
     public InteractionType BeginInteraction(GameObject gameObject)
     {
-        Debug.Log("yo fuck you");
         GiveItemToPlayer(gameObject);
 
         return InteractionType.None;
