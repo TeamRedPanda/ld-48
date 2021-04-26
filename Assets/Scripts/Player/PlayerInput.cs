@@ -179,6 +179,8 @@ public class PlayerInput : NetworkBehaviour
         m_InputControls.Player.DropItem.performed += HandleDrop;
 
         m_InputControls.Player.Enable();
+
+        m_Rigidbody.bodyType = RigidbodyType2D.Dynamic;
     }
 
     private void HandleDrop(InputAction.CallbackContext context)
